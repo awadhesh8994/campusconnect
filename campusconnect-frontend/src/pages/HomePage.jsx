@@ -18,7 +18,6 @@ export default function HomePage() {
   `${import.meta.env.VITE_API_URL}/posts`,
   { headers: { Authorization: `Bearer ${token}` } }
 );
-      });
       setPosts(res.data);
     } catch (err) {
       console.error(err);
