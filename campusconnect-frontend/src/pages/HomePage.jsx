@@ -14,11 +14,10 @@ export default function HomePage() {
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/posts', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axios.get(
+  `${import.meta.env.VITE_API_URL}/posts`,
+  { headers: { Authorization: `Bearer ${token}` } }
+);
       setPosts(res.data);
     } catch (err) {
       console.error(err);
