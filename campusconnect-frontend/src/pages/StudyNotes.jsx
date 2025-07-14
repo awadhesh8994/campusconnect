@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function StudyNotes() {
   const [notes, setNotes] = useState([]);
@@ -18,7 +18,7 @@ export default function StudyNotes() {
     const fetchNotes = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('http://localhost:5000/api/notes');
+        const res = await axios.get('https://campus-connect-backend-wpxg.onrender.com/api/notes');
         setNotes(res.data);
       } catch (err) {
         console.error(err);
@@ -52,7 +52,7 @@ export default function StudyNotes() {
       uploadData.append('description', formData.description);
       uploadData.append('file', formData.file);
 
-      await axios.post('http://localhost:5000/api/notes', uploadData, {
+      await axios.post('https://campus-connect-backend-wpxg.onrender.com/api/notes', uploadData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ export default function StudyNotes() {
       setFormData({ title: '', description: '', file: null });
       
       // Refresh notes
-      const res = await axios.get('http://localhost:5000/api/notes');
+      const res = await axios.get('https://campus-connect-backend-wpxg.onrender.com/api/notes');
       setNotes(res.data);
     } catch (err) {
       console.error(err);
@@ -266,7 +266,7 @@ export default function StudyNotes() {
                       {isImage ? (
                         <div className="relative overflow-hidden rounded-xl">
                           <img
-                            src={`http://localhost:5000${note.fileUrl}`}
+                            src={`https://campus-connect-backend-wpxg.onrender.com${note.fileUrl}`}
                             alt="preview"
                             className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
                           />
@@ -284,7 +284,7 @@ export default function StudyNotes() {
 
                     {/* Download Button */}
                     <a
-                      href={`http://localhost:5000${note.fileUrl}`}
+                      href={`https://campus-connect-backend-wpxg.onrender.com${note.fileUrl}`}
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="block w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-center py-2 px-4 rounded-xl hover:from-blue-600 hover:to-purple-600 transform hover:scale-[1.02] transition-all duration-200 font-medium"

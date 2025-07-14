@@ -7,7 +7,7 @@ export default function useSocket(currentUser, setConversations) {
   useEffect(() => {
     if (!currentUser) return;
 
-    const socket = io('http://localhost:5000', {
+    const socket = io('https://campus-connect-backend-wpxg.onrender.com', {
       auth: { token: localStorage.getItem('token') },
     });
 

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreatePost() {
@@ -13,7 +13,7 @@ export default function CreatePost() {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.post(
-        'http://localhost:5000/api/posts',
+        'https://campus-connect-backend-wpxg.onrender.com/api/posts',
         { text, image },
         { headers: { Authorization: `Bearer ${token}` } }
       );

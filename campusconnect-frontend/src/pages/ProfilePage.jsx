@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PostCard from '../components/PostCard';
 
@@ -22,7 +22,7 @@ const isOwnProfile = decoded.id === actualId;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userRes = await axios.get(`http://localhost:5000/api/users/${actualId}`,{
+        const userRes = await axios.get(`https://campus-connect-backend-wpxg.onrender.com/api/users/${actualId}`,{
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(userRes.data);
@@ -33,12 +33,12 @@ const isOwnProfile = decoded.id === actualId;
           profilePic: userRes.data.profilePic || '',
         });
 
-        const allNotes = await axios.get('http://localhost:5000/api/notes');
+        const allNotes = await axios.get('https://campus-connect-backend-wpxg.onrender.com/api/notes');
 const myNotes = allNotes.data.filter(n => n.uploadedBy?._id === actualId);
 setMyNotes(myNotes);
 
 
-        const postRes = await axios.get(`http://localhost:5000/api/posts/user/${actualId}`, {
+        const postRes = await axios.get(`https://campus-connect-backend-wpxg.onrender.com/api/posts/user/${actualId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const userPosts = postsRes.data.filter((p) => p.user._id === userRes.data._id);
@@ -52,7 +52,7 @@ setMyNotes(myNotes);
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/users/${user._id}`, form, {
+      await axios.put(`https://campus-connect-backend-wpxg.onrender.com/api/users/${user._id}`, form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEditing(false);
@@ -73,7 +73,7 @@ setMyNotes(myNotes);
 
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/users/${actualId}`,
+      `https://campus-connect-backend-wpxg.onrender.com/api/users/${actualId}`,
       { profilePic: URL.createObjectURL(file) }, // Replace with backend upload URL if needed
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -89,7 +89,7 @@ setMyNotes(myNotes);
 const handleRemovePicture = async () => {
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/users/${actualId}`,
+      `https://campus-connect-backend-wpxg.onrender.com/api/users/${actualId}`,
       { profilePic: '' },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -105,7 +105,7 @@ const handleDeleteNote = async (noteId) => {
   if (!confirmDelete) return;
 
   try {
-    await axios.delete(`http://localhost:5000/api/notes/${noteId}`, {
+    await axios.delete(`https://campus-connect-backend-wpxg.onrender.com/api/notes/${noteId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setMyNotes(myNotes.filter(note => note._id !== noteId));
@@ -237,7 +237,7 @@ const handleDeleteNote = async (noteId) => {
 </div>
 
             <a
-              href={`http://localhost:5000${note.fileUrl}`}
+              href={`https://campus-connect-backend-wpxg.onrender.com${note.fileUrl}`}
               className="text-blue-600 text-sm underline"
               target="_blank"
               rel="noopener noreferrer"

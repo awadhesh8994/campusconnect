@@ -6,7 +6,7 @@ export const getEventById = (id) => axios.get(`/events/${id}`);
 
 export const createEvent = async (formData, token) => {
   const response = await axios.post(
-    'http://localhost:5000/api/events',
+    'https://campus-connect-backend-wpxg.onrender.com/api/events',
     formData,
     {
       headers: {

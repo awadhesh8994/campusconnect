@@ -1,7 +1,7 @@
 // pages/ChatList.jsx
-import React, { useEffect, useState } from 'react';
+import { MessageCircle, Search, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MessageCircle, Users } from 'lucide-react';
 
 const ChatList = ({ currentUser }) => {
   const [users, setUsers] = useState([]);
@@ -11,7 +11,7 @@ const ChatList = ({ currentUser }) => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/users', {
+        const res = await fetch('https://campus-connect-backend-wpxg.onrender.com/api/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

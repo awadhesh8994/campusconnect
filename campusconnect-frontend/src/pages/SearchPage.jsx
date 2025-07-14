@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function SearchPage() {
@@ -12,7 +12,7 @@ export default function SearchPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:5000/api/users/search?query=${query}`, {
+      const res = await axios.get(`https://campus-connect-backend-wpxg.onrender.com/api/users/search?query=${query}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setResults(res.data);
