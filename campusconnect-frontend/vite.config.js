@@ -16,7 +16,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:5000', // Replace with your backend port
+      '/api': 'https://campus-connect-backend-wpxg.onrender.com/api', // Replace with your backend port
     },
   },
 })
