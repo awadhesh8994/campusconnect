@@ -22,23 +22,6 @@ CampusConnect is a full-stack MERN (MongoDB, Express, React, Node.js) web platfo
 
 ---
 
-## 📁 Project Structure
-
-campusconnect/
-├── backend/ # Node.js + Express + MongoDB
-│ ├── models/
-│ ├── routes/
-│ ├── controllers/
-│ └── server.js
-├── frontend/ # React + Tailwind + Axios + Socket.IO
-│ ├── src/
-│ │ ├── pages/
-│ │ ├── components/
-│ │ └── App.js
-├── README.md
-└── package.json
-
-
 ---
 
 ## ⚙️ Tech Stack
@@ -50,20 +33,4 @@ campusconnect/
 
 ---
 
-## 🔧 Setup Instructions
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/awadhesh8994/campusconnect.git
-cd campusconnect
-📦 Deployment
-Frontend: Deploy on Vercel
-
-Backend: Deploy on Render
-
-MongoDB: Use MongoDB Atlas
-
-🙌 Contributors
-Awadhesh Kumar
 
