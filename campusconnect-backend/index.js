@@ -35,7 +35,7 @@ const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
     credentials: true,
-    methods: ['GET', 'POST']
+    methods: ["GET", "POST"]
   }
 });
 const onlineUsers = new Map();
@@ -68,13 +68,18 @@ io.on('connection', (socket) => {
 });
 
 // Middleware
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,              // <‑‑ sends Access‑Control‑Allow‑Credentials: true
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,                         // ✅ allow cookies / auth headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // add more if needed
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Routes
