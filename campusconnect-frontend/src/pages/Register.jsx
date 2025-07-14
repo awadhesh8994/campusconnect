@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import API from "@/lib/api"; 
 
 export default function Register() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -8,14 +9,15 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/api/auth/register', formData);
-      navigate('/login');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
-    }
-  };
+  e.preventDefault();
+  try {
+    await API.post("/auth/register", formData);
+    navigate("/login");
+  } catch (err) {
+    setError(err.response?.data?.message || "Registration failed");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-50 px-4 py-12">
