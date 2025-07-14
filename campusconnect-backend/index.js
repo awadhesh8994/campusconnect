@@ -1,5 +1,3 @@
-// index.js or server.js
-
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
@@ -22,13 +20,20 @@ import messageRoutes from './routes/messageRoutes.js';
 import authenticateUser  from './middleware/authMiddleware.js';
 import conversationRoutes from './routes/conversationRoutes.js';
 
+
+const allowedOrigins = [
+  'http://localhost:5173',              // dev Vite
+  'https://campusconnect-cc.vercel.app' // YOUR Vercel prod URL   ← note the -cc
+];
+
+
 // Setup
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin:[ 'http://localhost:5173','https://campus-connect.vercel.app'],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST']
   }
@@ -63,7 +68,13 @@ io.on('connection', (socket) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,              // <‑‑ sends Access‑Control‑Allow‑Credentials: true
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  })
+);
 app.use(express.json());
 
 // Routes
