@@ -47,7 +47,7 @@ export default function SearchPage() {
         {results.map(user => (
           <li key={user._id} className="bg-white p-4 shadow rounded-lg flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img src={user.profilePic || 'https://via.placeholder.com/40'} className="w-12 h-12 rounded-full object-cover" />
+              <img src={user.profilePic || '/default-avatar.png'} className="w-12 h-12 rounded-full object-cover" />
               <div>
                 <h3 className="font-semibold text-lg">{user.name}</h3>
                 <p className="text-sm text-gray-500">{user.branch} • {user.year}</p>
