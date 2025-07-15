@@ -24,10 +24,21 @@ export default function ChatWindow({
   useEffect(() => {
     if (!socket) return;
 
-    socket.emit('join', recipient._id); // join room
+    io.to(senderId).emit('receiveMessage', message);
+io.to(recipientId).emit('receiveMessage', message);
+ // join room
     socket.on('receiveMessage', (msg) => {
-      if (msg.senderId === recipient._id) setMessages((m) => [...m, msg]);
-    });
+  const sender = getId(msg.senderId);
+  const isCurrentChat =
+        (sender === recipient._id) || (sender === currentUser._id);
+
+  if (isCurrentChat) {
+    setMessages((prev) =>
+      prev.some((m) => m._id === msg._id) ? prev : [...prev, msg]
+    );
+  }
+});
+
     socket.on('typing', (fromId) => {
       if (fromId === recipient._id) {
         setTyping(true);
@@ -129,7 +140,9 @@ export default function ChatWindow({
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-gray-50 to-white">
         {messages.map((m) => {
-          const own = m.senderId === currentUser._id;
+          const getId = (val) => (typeof val === 'object' ? val._id : val);
+const own    = getId(m.senderId) === currentUser._id;
+
           return (
             <div key={m._id} className={`flex ${own ? 'justify-end' : 'justify-start'} group`}>
               <div className={`flex items-end gap-2 max-w-xs ${own ? 'flex-row-reverse' : 'flex-row'}`}>

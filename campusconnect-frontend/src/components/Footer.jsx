@@ -104,8 +104,8 @@ export default function Footer() {
               © {new Date().getFullYear()} CampusConnect. All rights reserved. Made with ❤️ for students.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-indigo-300 text-sm transition-colors duration-200">Terms</a>
-              <a href="#" className="text-gray-400 hover:text-purple-300 text-sm transition-colors duration-200">Privacy</a>
+              <a href="/terms" className="text-gray-400 hover:text-indigo-300 text-sm transition-colors duration-200">Terms</a>
+              <a href="/privacy" className="text-gray-400 hover:text-purple-300 text-sm transition-colors duration-200">Privacy</a>
               <a href="#" className="text-gray-400 hover:text-pink-300 text-sm transition-colors duration-200">Cookies</a>
             </div>
           </div>

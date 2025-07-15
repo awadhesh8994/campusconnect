@@ -18,6 +18,7 @@ import AboutPage from './pages/AboutPage';
 import PrivacyPage from './pages/PrivacyPage';
 import AdminPage from './pages/AdminPage'; 
 import MyEvents from './pages/MyEvents';
+import Terms from './pages/Terms';
 
 
 export default function App() {
@@ -47,6 +48,8 @@ export default function App() {
         <Route path="/events/create" element={<CreateEvent />} />
         <Route path="/events/my" element={<MyEvents />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        <Route path="/terms" element={<Terms />} />
+
         
 
 
