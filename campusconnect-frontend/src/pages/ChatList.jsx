@@ -58,7 +58,7 @@ const ChatList = ({ currentUser }) => {
         <div className="flex items-center gap-3 mb-4">
           <div className="relative">
             <img 
-              src={currentUser.profilePic || 'https://via.placeholder.com/40'} 
+              src={user.profilePic || '/default-avatar.png'}
               alt="Your profile" 
               className="w-10 h-10 rounded-full object-cover"
             />
