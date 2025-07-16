@@ -1,33 +1,38 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from "../api/axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
-  const [text, setText] = useState('');
-  const [image, setImage] = useState('');
-  const [error, setError] = useState('');
+  const [text, setText] = useState("");
+  const [image, setImage] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const res = await axios.post(
-        'https://campus-connect-backend-wpxg.onrender.com/api/posts',
+        "/posts",
         { text, image },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      navigate('/');
+
+      navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create post');
+      setError(err.response?.data?.message || "Failed to create post");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl">
-        <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">Create a New Post 📝</h2>
-        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
+        <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
+          Create a New Post 📝
+        </h2>
+        {error && (
+          <p className="text-red-500 text-sm text-center mb-4">{error}</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-5">
           <textarea
             rows="4"
@@ -45,12 +50,12 @@ export default function CreatePost() {
             className="w-full border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {image && (
-  <img
-    src={image}
-    alt="Preview"
-    className="w-full rounded-lg max-h-96 object-cover border mt-2"
-  />
-)}
+            <img
+              src={image}
+              alt="Preview"
+              className="w-full rounded-lg max-h-96 object-cover border mt-2"
+            />
+          )}
 
           <button
             type="submit"

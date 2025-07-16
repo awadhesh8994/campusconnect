@@ -63,7 +63,7 @@ export default function ConversationSidebar({
                   >
                     <div className="relative">
                       <img
-                        src={partner.profilePic || 'https://via.placeholder.com/40'}
+                        src={partner.profilePic || '/default-avatar.png'}
                         alt={partner.name}
                         className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
                       />
@@ -108,7 +108,7 @@ export default function ConversationSidebar({
                 >
                   <div className="relative">
                     <img
-                      src={u.profilePic || 'https://via.placeholder.com/40'}
+                      src={u.profilePic || '/default-avatar.png'}
                       alt={u.name}
                       className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
                     />
@@ -143,7 +143,7 @@ export default function ConversationSidebar({
         <div className="flex items-center gap-3">
           <div className="relative">
             <img
-              src={currentUser?.profilePic || 'https://via.placeholder.com/40'}
+              src={currentUser?.profilePic || '/default-avatar.png'}
               alt={currentUser?.name || 'You'}
               className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
             />

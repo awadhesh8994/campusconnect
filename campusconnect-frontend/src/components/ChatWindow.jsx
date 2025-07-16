@@ -109,7 +109,7 @@ io.to(recipientId).emit('receiveMessage', message);
         
         <div className="relative">
           <img
-            src={recipient.profilePic || 'https://via.placeholder.com/40'}
+            src={recipient.profilePic || '/default-avatar.png'}
             alt={recipient.name}
             className="w-10 h-10 rounded-full object-cover"
           />
@@ -148,7 +148,7 @@ const own    = getId(m.senderId) === currentUser._id;
               <div className={`flex items-end gap-2 max-w-xs ${own ? 'flex-row-reverse' : 'flex-row'}`}>
                 {!own && (
                   <img 
-                    src={recipient.profilePic || 'https://via.placeholder.com/24'} 
+                    src={recipient.profilePic || '/default-avatar.png'} 
                     alt={recipient.name}
                     className="w-6 h-6 rounded-full object-cover"
                   />
@@ -184,7 +184,7 @@ const own    = getId(m.senderId) === currentUser._id;
           <div className="flex justify-start">
             <div className="flex items-center gap-2">
               <img 
-                src={recipient.profilePic || 'https://via.placeholder.com/24'} 
+                src={recipient.profilePic || '/default-avatar.png'} 
                 alt={recipient.name}
                 className="w-6 h-6 rounded-full object-cover"
               />

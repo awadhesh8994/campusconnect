@@ -1,20 +1,27 @@
 // frontend/pages/Events.jsx
-import React, { useEffect, useState } from 'react';
-import { getEvents, toggleRSVP } from '../api/eventApi';
-import EventCard from '../components/EventCard';
+import React, { useEffect, useState } from "react";
+import { getEvents, toggleRSVP } from "../api/eventApi";
+import EventCard from "../components/EventCard";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
 
   // initial load
   useEffect(() => {
-    getEvents().then((res) => setEvents(res.data)).catch(console.error);
+    getEvents()
+      .then((res) => {
+        const sortedEvents = res.data.sort(
+          (a, b) => new Date(a.date) - new Date(b.date)
+        );
+        setEvents(sortedEvents);
+      })
+      .catch(console.error);
   }, []);
 
   // RSVP handler
   const handleRSVP = async (eventId) => {
-    const token = localStorage.getItem('token');
-    if (!token) return alert('Login required to RSVP');
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Login required to RSVP");
 
     try {
       const res = await toggleRSVP(eventId, token);
@@ -27,7 +34,7 @@ export default function Events() {
       );
     } catch (err) {
       console.error(err);
-      alert('Could not RSVP');
+      alert("Could not RSVP");
     }
   };
 

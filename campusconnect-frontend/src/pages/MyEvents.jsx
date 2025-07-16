@@ -10,7 +10,16 @@ export default function MyEvents() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    getMyEvents(token).then((res) => setEvents(res.data)).catch(console.error);
+    const fetchEvents = async () => {
+      try {
+        const res = await getMyEvents(token);
+        setEvents(res.data);
+      } catch (error) {
+        console.error('Failed to fetch my events:', error);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
   return (

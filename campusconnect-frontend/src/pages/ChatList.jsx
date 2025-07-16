@@ -108,7 +108,7 @@ const ChatList = ({ currentUser }) => {
               >
                 <div className="relative">
                   <img 
-                    src={user.profilePic || 'https://via.placeholder.com/48'} 
+                    src={user.profilePic || '/default-avatar.png'} 
                     alt={user.name} 
                     className="w-12 h-12 rounded-full object-cover"
                   />

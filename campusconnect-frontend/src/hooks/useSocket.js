@@ -7,15 +7,20 @@ export default function useSocket(currentUser, setConversations) {
   useEffect(() => {
     if (!currentUser) return;
 
-    const socket = io('https://campus-connect-backend-wpxg.onrender.com', {
-      auth: { token: localStorage.getItem('token') },
-    });
+    const socket = io(
+      import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL.replace('/api', ''),
+      {
+        auth: { token: localStorage.getItem('token') },
+        path: '/socket.io',
+        transports: ['websocket'],
+        withCredentials: true,
+      }
+    );
 
     socket.on('connect', () => {
       socket.emit('addUser', currentUser._id);
     });
 
-    // update conversation list when new message arrives
     socket.on('receiveMessage', (msg) => {
       setConversations((prev) => {
         const idx = prev.findIndex((c) =>
@@ -31,6 +36,7 @@ export default function useSocket(currentUser, setConversations) {
     });
 
     socketRef.current = socket;
+
     return () => socket.disconnect();
   }, [currentUser, setConversations]);
 
