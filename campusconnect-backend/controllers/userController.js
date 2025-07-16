@@ -1,11 +1,12 @@
 // controllers/userController.js
-import User from '../models/User.js';
+import User from "../models/User.js";
+import cloudinary from "../config/cloudinary.js";
 
 // Get user profile by ID
 export const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -13,14 +14,27 @@ export const getUserProfile = async (req, res) => {
 };
 
 // Update user profile
+// Update user profile
 export const updateUserProfile = async (req, res) => {
   try {
     if (req.user.id !== req.params.id) {
-      return res.status(403).json({ message: 'Unauthorized' });
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
-    const updates = req.body;
-    const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true }).select('-password');
+    const updates = { ...req.body };
+
+    // If image is included in multipart/form-data
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "campusconnect/profiles",
+      });
+      updates.profilePic = result.secure_url;
+    }
+
+    const user = await User.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+    }).select("-password");
+
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -36,13 +50,13 @@ export const searchUsers = async (req, res) => {
     if (query) {
       filter = {
         $or: [
-          { name: { $regex: query, $options: 'i' } },
-          { branch: { $regex: query, $options: 'i' } }
-        ]
+          { name: { $regex: query, $options: "i" } },
+          { branch: { $regex: query, $options: "i" } },
+        ],
       };
     }
 
-    const users = await User.find(filter).select('-password');
+    const users = await User.find(filter).select("-password");
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
