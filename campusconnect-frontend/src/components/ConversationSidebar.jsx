@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import { Search, MessageCircle, Users, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Search, MessageCircle, Users, X } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 
 export default function ConversationSidebar({
-  currentUser, conversations, contacts, onSelect
+  currentUser,
+  conversations,
+  contacts,
+  onSelect,
 }) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
-  const filteredContacts = contacts.filter(
-    (u) => u.name.toLowerCase().includes(query.toLowerCase())
+  const filteredContacts = contacts.filter((u) =>
+    u.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  const clearSearch = () => setQuery('');
+  const clearSearch = () => setQuery("");
 
   return (
     <aside className="w-80 bg-gradient-to-b from-slate-50 to-white border-r border-slate-200 flex flex-col h-full shadow-sm">
@@ -22,7 +26,7 @@ export default function ConversationSidebar({
           </div>
           <h2 className="text-xl font-semibold text-slate-800">Messages</h2>
         </div>
-        
+
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -50,11 +54,15 @@ export default function ConversationSidebar({
           <div className="p-4">
             <div className="flex items-center gap-2 mb-3">
               <MessageCircle className="w-4 h-4 text-slate-500" />
-              <h3 className="text-sm font-medium text-slate-600 uppercase tracking-wide">Recent</h3>
+              <h3 className="text-sm font-medium text-slate-600 uppercase tracking-wide">
+                Recent
+              </h3>
             </div>
             <div className="space-y-1">
               {conversations.map((c) => {
-                const partner = c.members.find((m) => m._id !== currentUser._id);
+                const partner = c.members.find(
+                  (m) => m._id !== currentUser._id
+                );
                 return (
                   <button
                     key={c._id}
@@ -63,7 +71,7 @@ export default function ConversationSidebar({
                   >
                     <div className="relative">
                       <img
-                        src={partner.profilePic || '/default-avatar.png'}
+                        src={partner.profilePic || "/default-avatar.png"}
                         alt={partner.name}
                         className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
                       />
@@ -74,15 +82,22 @@ export default function ConversationSidebar({
                         <span className="font-medium text-slate-800 text-sm group-hover:text-blue-600 transition-colors">
                           {partner.name}
                         </span>
-                        <span className="text-xs text-slate-400">2m</span>
+                        <span className="text-xs text-slate-400">
+                          {formatDistanceToNow(
+                            new Date(c.lastMessage?.createdAt || Date.now()),
+                            { addSuffix: true }
+                          )}
+                        </span>
                       </div>
                       <p className="text-xs text-slate-500 truncate">
-                        {c.lastMessage?.text || 'Start a conversation'}
+                        {c.lastMessage?.text || "Start a conversation"}
                       </p>
                     </div>
                     {c.unreadCount && (
                       <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                        <span className="text-xs text-white font-medium">{c.unreadCount}</span>
+                        <span className="text-xs text-white font-medium">
+                          {c.unreadCount}
+                        </span>
                       </div>
                     )}
                   </button>
@@ -97,7 +112,9 @@ export default function ConversationSidebar({
           <div className="p-4 border-t border-slate-100">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-slate-500" />
-              <h3 className="text-sm font-medium text-slate-600 uppercase tracking-wide">Contacts</h3>
+              <h3 className="text-sm font-medium text-slate-600 uppercase tracking-wide">
+                Contacts
+              </h3>
             </div>
             <div className="space-y-1">
               {filteredContacts.map((u) => (
@@ -108,7 +125,7 @@ export default function ConversationSidebar({
                 >
                   <div className="relative">
                     <img
-                      src={u.profilePic || '/default-avatar.png'}
+                      src={u.profilePic || "/default-avatar.png"}
                       alt={u.name}
                       className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
                     />
@@ -132,8 +149,12 @@ export default function ConversationSidebar({
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <MessageCircle className="w-8 h-8 text-slate-400" />
             </div>
-            <h3 className="text-lg font-medium text-slate-700 mb-2">No conversations yet</h3>
-            <p className="text-sm text-slate-500">Start chatting with your contacts to see conversations here</p>
+            <h3 className="text-lg font-medium text-slate-700 mb-2">
+              No conversations yet
+            </h3>
+            <p className="text-sm text-slate-500">
+              Start chatting with your contacts to see conversations here
+            </p>
           </div>
         )}
       </div>
@@ -143,14 +164,16 @@ export default function ConversationSidebar({
         <div className="flex items-center gap-3">
           <div className="relative">
             <img
-              src={currentUser?.profilePic || '/default-avatar.png'}
-              alt={currentUser?.name || 'You'}
+              src={currentUser?.profilePic || "/default-avatar.png"}
+              alt={currentUser?.name || "You"}
               className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
             />
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
           </div>
           <div className="flex-1">
-            <div className="font-medium text-slate-800 text-sm">{currentUser?.name || 'You'}</div>
+            <div className="font-medium text-slate-800 text-sm">
+              {currentUser?.name || "You"}
+            </div>
             <div className="text-xs text-slate-500">Online</div>
           </div>
         </div>

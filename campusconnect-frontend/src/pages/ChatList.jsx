@@ -1,40 +1,44 @@
 // pages/ChatList.jsx
-import { MessageCircle, Search, Users } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { MessageCircle, Search, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const ChatList = ({ currentUser }) => {
   const [users, setUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await fetch('https://campus-connect-backend-wpxg.onrender.com/api/users', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          "https://campus-connect-backend-wpxg.onrender.com/api/users",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await res.json();
-        console.log('🔍 Response from /api/users:', data);
+        console.log("🔍 Response from /api/users:", data);
 
         if (Array.isArray(data)) {
-          setUsers(data.filter(u => u._id !== currentUser._id));
+          setUsers(data.filter((u) => u._id !== currentUser._id));
         } else {
-          console.error('Unexpected API response:', data);
+          console.error("Unexpected API response:", data);
         }
       } catch (err) {
-        console.error('❌ Error fetching users', err);
+        console.error("❌ Error fetching users", err);
       }
     };
 
     if (currentUser) fetchUsers();
   }, [currentUser]);
 
-  const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.branch.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.branch.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (!currentUser) {
@@ -44,8 +48,12 @@ const ChatList = ({ currentUser }) => {
           <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
             <MessageCircle className="w-12 h-12 text-blue-500" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Please log in</h3>
-          <p className="text-gray-500">You need to log in to view and start chats</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            Please log in
+          </h3>
+          <p className="text-gray-500">
+            You need to log in to view and start chats
+          </p>
         </div>
       </div>
     );
@@ -57,9 +65,9 @@ const ChatList = ({ currentUser }) => {
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center gap-3 mb-4">
           <div className="relative">
-            <img 
-              src={user.profilePic || '/default-avatar.png'}
-              alt="Your profile" 
+            <img
+              src={currentUser.profilePic || "/default-avatar.png"}
+              alt="Your profile"
               className="w-10 h-10 rounded-full object-cover"
             />
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
@@ -69,10 +77,12 @@ const ChatList = ({ currentUser }) => {
               <Users className="w-5 h-5" />
               Start a Chat
             </h2>
-            <p className="text-sm text-gray-600">Choose someone to start a conversation</p>
+            <p className="text-sm text-gray-600">
+              Choose someone to start a conversation
+            </p>
           </div>
         </div>
-        
+
         {/* Search Bar */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -93,23 +103,27 @@ const ChatList = ({ currentUser }) => {
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 mx-auto">
               <Users className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No users found
+            </h3>
             <p className="text-gray-500">
-              {searchTerm ? 'Try adjusting your search terms' : 'No users available to chat with'}
+              {searchTerm
+                ? "Try adjusting your search terms"
+                : "No users available to chat with"}
             </p>
           </div>
         ) : (
           <div className="space-y-3">
-            {filteredUsers.map(user => (
+            {filteredUsers.map((user) => (
               <Link
                 key={user._id}
                 to={`/chat/${user._id}`}
                 className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-100 hover:border-blue-200 transition-all duration-200 group"
               >
                 <div className="relative">
-                  <img 
-                    src={user.profilePic || '/default-avatar.png'} 
-                    alt={user.name} 
+                  <img
+                    src={currentUser.profilePic || "/default-avatar.png"}
+                    alt={user.name}
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
