@@ -14,7 +14,7 @@ const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
 router.post('/', authenticateUser, upload.single('image'), createPost);
-router.get("/", protect, getAllPosts); // already likely present
+router.get("/", authenticateUser, getAllPosts);
 router.post("/:id/like", authenticateUser, likePost);
 router.post("/:id/comment", authenticateUser, commentPost);
 router.delete("/:id", authenticateUser, deletePost);

@@ -106,4 +106,15 @@ const getUserEvents = async (req, res) => {
   }
 };
 
+// GET /api/events
+const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find().sort({ date: -1 });
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 export { createEvent, getEvents, getEventById, toggleRSVP, getUserEvents };
