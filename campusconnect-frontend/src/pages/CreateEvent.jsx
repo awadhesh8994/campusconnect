@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createEvent } from '../api/eventApi';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createEvent } from "../api/eventApi";
 
 export default function CreateEvent() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    title: '',
-    description: '',
-    date: '',
-    location: '',
+    title: "",
+    description: "",
+    date: "",
+    location: "",
     image: null, // Changed to store file object
-    tags: '',
-    category: '',
+    tags: "",
+    category: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -25,28 +25,28 @@ export default function CreateEvent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      setError('Login required to create events');
+      setError("Login required to create events");
       return;
     }
 
     try {
       const formData = new FormData();
-      formData.append('title', form.title);
-      formData.append('description', form.description);
-      formData.append('date', form.date);
-      formData.append('location', form.location);
+      formData.append("title", form.title);
+      formData.append("description", form.description);
+      formData.append("date", form.date);
+      formData.append("location", form.location);
       if (form.image) {
-        formData.append('image', form.image); // Append image file
+        formData.append("image", form.image); // Append image file
       }
-      formData.append('tags', form.tags); // send raw comma string
-      formData.append('category', form.category);
+      formData.append("tags", form.tags); // send raw comma string
+      formData.append("category", form.category);
 
       await createEvent(formData, token);
-      navigate('/events/my');
+      navigate("/events/my");
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to create event');
+      setError(err.response?.data?.error || "Failed to create event");
     }
   };
 
@@ -64,12 +64,25 @@ export default function CreateEvent() {
         `}
       </style>
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl animate-fadeIn">
-        <h2 className="text-3xl font-bold mb-2 text-center text-blue-700">Create a New Event 🎉</h2>
-        <p className="text-center text-gray-500 mb-6">Organize something amazing for your campus!</p>
-        {error && <div className="text-red-500 mb-4 text-sm text-center bg-red-50 p-2 rounded-lg">{error}</div>}
+        <h2 className="text-3xl font-bold mb-2 text-center text-blue-700">
+          Create a New Event 🎉
+        </h2>
+        <p className="text-center text-gray-500 mb-6">
+          Organize something amazing for your campus!
+        </p>
+        {error && (
+          <div className="text-red-500 mb-4 text-sm text-center bg-red-50 p-2 rounded-lg">
+            {error}
+          </div>
+        )}
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Event Title</label>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Event Title
+            </label>
             <input
               id="title"
               name="title"
@@ -81,7 +94,12 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
@@ -93,7 +111,12 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Date & Time
+            </label>
             <input
               id="date"
               type="datetime-local"
@@ -105,7 +128,12 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Location
+            </label>
             <input
               id="location"
               name="location"
@@ -116,7 +144,12 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">Event Image</label>
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Event Image
+            </label>
             <input
               id="image"
               type="file"
@@ -127,7 +160,12 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+            <label
+              htmlFor="tags"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Tags
+            </label>
             <input
               id="tags"
               name="tags"
@@ -138,7 +176,12 @@ export default function CreateEvent() {
             />
           </div>
           <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Category
+            </label>
             <input
               id="category"
               name="category"

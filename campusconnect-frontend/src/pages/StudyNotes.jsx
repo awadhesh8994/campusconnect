@@ -1,19 +1,19 @@
 // StudyNotes.jsx
-import React, { useEffect, useState } from 'react';
-import axios from '../api/axios'; // ✅ centralized Axios using VITE_API_URL
+import { useEffect, useState } from "react";
+import axios from "../api/axios"; // ✅ centralized Axios using VITE_API_URL
 
 export default function StudyNotes() {
   const [notes, setNotes] = useState([]);
-  const [form, setForm] = useState({ title: '', file: null });
-  const [error, setError] = useState('');
-  const [filter, setFilter] = useState('');
+  const [form, setForm] = useState({ title: "", file: null });
+  const [error, setError] = useState("");
+  const [filter, setFilter] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const fetchNotes = async () => {
     try {
-      const res = await axios.get('/notes'); // ✅ relative path
+      const res = await axios.get("/notes"); // ✅ relative path
       setNotes(res.data);
     } catch (err) {
       console.error(err);
@@ -27,35 +27,35 @@ export default function StudyNotes() {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!form.title || !form.file) {
-      setError('Please provide a title and file.');
+      setError("Please provide a title and file.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('title', form.title);
-    formData.append('file', form.file);
+    formData.append("title", form.title);
+    formData.append("file", form.file);
 
     setUploading(true);
     try {
-      await axios.post('/notes', formData, {
+      await axios.post("/notes", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
-      setForm({ title: '', file: null });
+      setForm({ title: "", file: null });
       fetchNotes();
-      setError('');
+      setError("");
     } catch (err) {
       console.error(err);
-      setError('Upload failed');
+      setError("Upload failed");
     } finally {
       setUploading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this note?')) return;
+    if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
       await axios.delete(`/notes/${id}`, {
@@ -69,16 +69,20 @@ export default function StudyNotes() {
     }
   };
 
-  const filteredNotes = notes.filter((n) =>
-    n.title.toLowerCase().includes(filter.toLowerCase()) ||
-    n.uploadedBy?.name.toLowerCase().includes(filter.toLowerCase())
+  const filteredNotes = notes.filter(
+    (n) =>
+      n.title.toLowerCase().includes(filter.toLowerCase()) ||
+      n.uploadedBy?.name.toLowerCase().includes(filter.toLowerCase()),
   );
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">📚 Study Notes</h2>
 
-      <form onSubmit={handleUpload} className="mb-6 bg-white p-4 rounded shadow space-y-4">
+      <form
+        onSubmit={handleUpload}
+        className="mb-6 bg-white p-4 rounded shadow space-y-4"
+      >
         <h3 className="text-lg font-semibold">Upload New Note</h3>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <input
@@ -99,7 +103,7 @@ export default function StudyNotes() {
           disabled={uploading}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          {uploading ? 'Uploading...' : 'Upload'}
+          {uploading ? "Uploading..." : "Upload"}
         </button>
       </form>
 
@@ -125,7 +129,7 @@ export default function StudyNotes() {
               <div>
                 <h4 className="font-semibold">{note.title}</h4>
                 <p className="text-sm text-gray-600">
-                  Uploaded by {note.uploadedBy?.name || 'Unknown'}
+                  Uploaded by {note.uploadedBy?.name || "Unknown"}
                 </p>
                 <a
                   href={note.fileUrl}

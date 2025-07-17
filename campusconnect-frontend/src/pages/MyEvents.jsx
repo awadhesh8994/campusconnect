@@ -1,13 +1,13 @@
 // frontend/pages/MyEvents.jsx
-import React, { useEffect, useState } from 'react';
-import { getMyEvents } from '../api/eventApi';
-import EventCard from '../components/EventCard';
+import { useEffect, useState } from "react";
+import { getMyEvents } from "../api/eventApi";
+import EventCard from "../components/EventCard";
 
 export default function MyEvents() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) return;
 
     const fetchEvents = async () => {
@@ -15,7 +15,7 @@ export default function MyEvents() {
         const res = await getMyEvents(token);
         setEvents(res.data);
       } catch (error) {
-        console.error('Failed to fetch my events:', error);
+        console.error("Failed to fetch my events:", error);
       }
     };
 

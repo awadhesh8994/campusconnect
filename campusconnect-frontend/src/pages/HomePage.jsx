@@ -19,7 +19,7 @@ export default function HomePage() {
         `${import.meta.env.VITE_API_URL}/posts?page=${page}&limit=5`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       if (!res.data || !res.data.posts) {
@@ -138,7 +138,8 @@ export default function HomePage() {
                       For Event Planners
                     </h3>
                     <p className="text-gray-600">
-                      Organize memorable campus events and connect with participants.
+                      Organize memorable campus events and connect with
+                      participants.
                     </p>
                   </div>
                 </div>
@@ -152,7 +153,8 @@ export default function HomePage() {
                       For Resource Sharers
                     </h3>
                     <p className="text-gray-600">
-                      Share your knowledge, upload notes, and help others succeed.
+                      Share your knowledge, upload notes, and help others
+                      succeed.
                     </p>
                   </div>
                 </div>
@@ -245,7 +247,9 @@ export default function HomePage() {
                   </span>
 
                   <button
-                    onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                    onClick={() =>
+                      setPage((prev) => Math.min(prev + 1, totalPages))
+                    }
                     disabled={page === totalPages}
                     className="px-4 py-2 bg-gray-200 text-gray-800 rounded disabled:opacity-50"
                   >

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -30,13 +30,13 @@ const AdminPage = () => {
           headers: {
             Authorization: `Bearer ${currentUser.token}`,
           },
-        }
+        },
       );
       setPosts(res.data);
     } catch (err) {
       console.error(
         "❌ Admin fetchPosts error:",
-        err.response?.data || err.message
+        err.response?.data || err.message,
       );
     }
   };
@@ -52,7 +52,7 @@ const AdminPage = () => {
     } catch (err) {
       console.error(
         "❌ Admin fetchUsers error:",
-        err.response?.data || err.message
+        err.response?.data || err.message,
       );
     }
   };
@@ -65,7 +65,7 @@ const AdminPage = () => {
           headers: {
             Authorization: `Bearer ${currentUser.token}`,
           },
-        }
+        },
       );
       fetchPosts();
     } catch (err) {
@@ -81,7 +81,7 @@ const AdminPage = () => {
           headers: {
             Authorization: `Bearer ${currentUser.token}`,
           },
-        }
+        },
       );
       fetchUsers();
     } catch (err) {

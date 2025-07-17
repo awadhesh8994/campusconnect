@@ -1,21 +1,26 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import PostCard from '../components/PostCard';
-import API from '@/lib/api';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import PostCard from "../components/PostCard";
+import API from "@/lib/api";
 
 export default function ProfilePage() {
   const { id } = useParams(); // "me" or user ID
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ bio: '', branch: '', year: '', profilePic: '' });
+  const [form, setForm] = useState({
+    bio: "",
+    branch: "",
+    year: "",
+    profilePic: "",
+  });
   const [showPicModal, setShowPicModal] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [, setUploading] = useState(false);
   const [myNotes, setMyNotes] = useState([]);
 
-  const token = localStorage.getItem('token');
-  const decoded = JSON.parse(atob(token.split('.')[1]));
-  const actualId = id === 'me' ? decoded.id : id;
+  const token = localStorage.getItem("token");
+  const decoded = JSON.parse(atob(token.split(".")[1]));
+  const actualId = id === "me" ? decoded.id : id;
   const isOwnProfile = decoded.id === actualId;
 
   useEffect(() => {
@@ -26,20 +31,24 @@ export default function ProfilePage() {
         });
         setUser(userRes.data);
         setForm({
-          bio: userRes.data.bio || '',
-          branch: userRes.data.branch || '',
-          year: userRes.data.year || '',
-          profilePic: userRes.data.profilePic || '',
+          bio: userRes.data.bio || "",
+          branch: userRes.data.branch || "",
+          year: userRes.data.year || "",
+          profilePic: userRes.data.profilePic || "",
         });
 
-        const notesRes = await API.get('/notes');
-        const myNotes = notesRes.data.filter(n => n.uploadedBy?._id === actualId);
+        const notesRes = await API.get("/notes");
+        const myNotes = notesRes.data.filter(
+          (n) => n.uploadedBy?._id === actualId,
+        );
         setMyNotes(myNotes);
 
         const postsRes = await API.get(`/posts/user/${actualId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const userPosts = postsRes.data.filter((p) => p.user._id === userRes.data._id);
+        const userPosts = postsRes.data.filter(
+          (p) => p.user._id === userRes.data._id,
+        );
         setPosts(userPosts);
       } catch (err) {
         console.error(err);
@@ -67,9 +76,13 @@ export default function ProfilePage() {
     try {
       // Optional: You can upload the file to cloud storage here.
       const imageUrl = URL.createObjectURL(file); // Temporarily use local preview
-      const res = await API.put(`/users/${actualId}`, { profilePic: imageUrl }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.put(
+        `/users/${actualId}`,
+        { profilePic: imageUrl },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setUser(res.data);
       setShowPicModal(false);
     } catch (err) {
@@ -81,9 +94,13 @@ export default function ProfilePage() {
 
   const handleRemovePicture = async () => {
     try {
-      const res = await API.put(`/users/${actualId}`, { profilePic: '' }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.put(
+        `/users/${actualId}`,
+        { profilePic: "" },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setUser(res.data);
       setShowPicModal(false);
     } catch (err) {
@@ -92,16 +109,18 @@ export default function ProfilePage() {
   };
 
   const handleDeleteNote = async (noteId) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this note?');
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this note?",
+    );
     if (!confirmDelete) return;
 
     try {
       await API.delete(`/notes/${noteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setMyNotes(myNotes.filter(note => note._id !== noteId));
+      setMyNotes(myNotes.filter((note) => note._id !== noteId));
     } catch (err) {
-      console.error('Failed to delete note:', err);
+      console.error("Failed to delete note:", err);
     }
   };
 
@@ -112,7 +131,7 @@ export default function ProfilePage() {
       <div className="bg-white rounded-2xl shadow-md p-6 mb-6">
         <div className="flex items-center gap-5">
           <img
-            src={user.profilePic || 'https://via.placeholder.com/150'}
+            src={user.profilePic || "default-profile.png"}
             alt="Profile"
             className="w-24 h-24 rounded-full mb-4 cursor-pointer hover:opacity-80 transition"
             onClick={() => isOwnProfile && setShowPicModal(true)}
@@ -120,8 +139,15 @@ export default function ProfilePage() {
           {showPicModal && (
             <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
               <div className="bg-white rounded-lg p-6 shadow-md w-80 text-center">
-                <h2 className="text-lg font-semibold mb-4">Update Profile Picture</h2>
-                <input type="file" accept="image/*" onChange={handlePictureUpload} className="mb-4" />
+                <h2 className="text-lg font-semibold mb-4">
+                  Update Profile Picture
+                </h2>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePictureUpload}
+                  className="mb-4"
+                />
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={handleRemovePicture}
@@ -165,21 +191,29 @@ export default function ProfilePage() {
                   onChange={(e) => setForm({ ...form, bio: e.target.value })}
                   className="w-full px-3 py-2 border rounded"
                 />
-                <button onClick={handleUpdate} className="bg-blue-600 text-white px-4 py-2 rounded">
+                <button
+                  onClick={handleUpdate}
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                >
                   Save Changes
                 </button>
               </div>
             ) : (
               <div className="mt-2 text-gray-600">
-                <p className="mb-1">📘 Branch: {user.branch || 'N/A'}</p>
-                <p className="mb-1">🎓 Year: {user.year || 'N/A'}</p>
-                <p className="mb-1">🗒️ Bio: {user.bio || 'No bio added yet.'}</p>
+                <p className="mb-1">📘 Branch: {user.branch || "N/A"}</p>
+                <p className="mb-1">🎓 Year: {user.year || "N/A"}</p>
+                <p className="mb-1">
+                  🗒️ Bio: {user.bio || "No bio added yet."}
+                </p>
               </div>
             )}
           </div>
         </div>
         {isOwnProfile && !editing && (
-          <button onClick={() => setEditing(true)} className="mt-4 text-blue-600 hover:underline">
+          <button
+            onClick={() => setEditing(true)}
+            className="mt-4 text-blue-600 hover:underline"
+          >
             Edit Profile
           </button>
         )}
@@ -187,31 +221,42 @@ export default function ProfilePage() {
 
       <h3 className="text-xl font-semibold mb-4">My Posts</h3>
       <div className="space-y-4">
-        {posts.length > 0 ? posts.map((post) => (
-          <PostCard key={post._id} post={post} />
-        )) : (
+        {posts.length > 0 ? (
+          posts.map((post) => <PostCard key={post._id} post={post} />)
+        ) : (
           <p className="text-gray-500">No posts yet.</p>
         )}
       </div>
 
       <div className="mt-8">
-        <h3 className="text-lg font-semibold mb-3">📑 Notes Uploaded ({myNotes.length})</h3>
+        <h3 className="text-lg font-semibold mb-3">
+          📑 Notes Uploaded ({myNotes.length})
+        </h3>
         {myNotes.length === 0 ? (
           <p className="text-gray-500">No notes uploaded yet.</p>
         ) : (
           <div className="space-y-3">
-            {myNotes.map(note => (
-              <div key={note._id} className="bg-gray-100 p-3 rounded shadow-sm flex justify-between items-center">
+            {myNotes.map((note) => (
+              <div
+                key={note._id}
+                className="bg-gray-100 p-3 rounded shadow-sm flex justify-between items-center"
+              >
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="font-medium">{note.title}</h4>
-                    <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                      note.fileUrl.endsWith('.pdf') ? 'bg-red-100 text-red-600' :
-                      note.fileUrl.endsWith('.doc') || note.fileUrl.endsWith('.docx') ? 'bg-blue-100 text-blue-600' :
-                      note.fileUrl.match(/\.(jpg|jpeg|png)$/) ? 'bg-green-100 text-green-600' :
-                      'bg-gray-100 text-gray-600'
-                    }`}>
-                      {note.fileUrl.split('.').pop().toUpperCase()}
+                    <span
+                      className={`text-xs font-semibold px-2 py-1 rounded ${
+                        note.fileUrl.endsWith(".pdf")
+                          ? "bg-red-100 text-red-600"
+                          : note.fileUrl.endsWith(".doc") ||
+                              note.fileUrl.endsWith(".docx")
+                            ? "bg-blue-100 text-blue-600"
+                            : note.fileUrl.match(/\.(jpg|jpeg|png)$/)
+                              ? "bg-green-100 text-green-600"
+                              : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {note.fileUrl.split(".").pop().toUpperCase()}
                     </span>
                   </div>
                   <a

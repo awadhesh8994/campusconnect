@@ -1,24 +1,22 @@
 // src/components/Navbar.jsx
-import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-
+import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem("token");
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   // Tailwind classes reused for desktop items
   const base =
-    'px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2';
+    "px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2";
   const mobileBase =
-    'px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3';
+    "px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3";
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
@@ -51,13 +49,6 @@ export default function Navbar() {
                 <NavLink to="/notes" className={base}>
                   <span>📖</span> <span>Study Notes</span>
                 </NavLink>
-
-                {currentUser && (
-  <NavLink to="/chat" className={base}>
-    <span>💬</span> <span>Chat</span>
-  </NavLink>
-)}
-
 
                 {/* Events dropdown */}
                 <div className="relative group">
@@ -167,11 +158,6 @@ export default function Navbar() {
                   <NavLink to="/notes" className={mobileBase}>
                     📖 Study Notes
                   </NavLink>
-                  {currentUser && (
-  <NavLink to="/chat" className={mobileBase}>
-    💬 Chat
-  </NavLink>
-)}
 
                   <NavLink to="/events" className={mobileBase}>
                     🎉 All Events

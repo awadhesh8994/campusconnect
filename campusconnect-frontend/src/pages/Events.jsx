@@ -1,5 +1,5 @@
 // frontend/pages/Events.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getEvents, toggleRSVP } from "../api/eventApi";
 import EventCard from "../components/EventCard";
 
@@ -11,7 +11,7 @@ export default function Events() {
     getEvents()
       .then((res) => {
         const sortedEvents = res.data.sort(
-          (a, b) => new Date(a.date) - new Date(b.date)
+          (a, b) => new Date(a.date) - new Date(b.date),
         );
         setEvents(sortedEvents);
       })
@@ -29,8 +29,8 @@ export default function Events() {
         prev.map((ev) =>
           ev._id === eventId
             ? { ...res.data, isAttending: !ev.isAttending }
-            : ev
-        )
+            : ev,
+        ),
       );
     } catch (err) {
       console.error(err);

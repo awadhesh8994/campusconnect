@@ -7,8 +7,8 @@ export default function EventDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [, setError] = useState(null);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     getEventById(id)

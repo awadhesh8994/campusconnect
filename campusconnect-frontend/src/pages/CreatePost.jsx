@@ -1,4 +1,3 @@
-import axios from "../api/axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,13 +10,6 @@ export default function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post(
-        "/posts",
-        { text, image },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to create post");

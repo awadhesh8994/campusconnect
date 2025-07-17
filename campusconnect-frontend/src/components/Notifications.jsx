@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
-import { fetchNotifications, markAsRead } from '../api/notificationApi';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { fetchNotifications, markAsRead } from "../api/notificationApi";
+import { Link } from "react-router-dom";
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    fetchNotifications().then(res => setNotifications(res.data));
+    fetchNotifications().then((res) => setNotifications(res.data));
   }, []);
 
   const handleMarkRead = async (id) => {
     await markAsRead(id);
-    setNotifications(notifications.map(n => n._id === id ? { ...n, isRead: true } : n));
+    setNotifications(
+      notifications.map((n) => (n._id === id ? { ...n, isRead: true } : n)),
+    );
   };
 
   return (
@@ -19,7 +21,10 @@ export default function Notifications() {
       <h3 className="p-3 border-b font-bold">Notifications</h3>
       <ul>
         {notifications.map((note) => (
-          <li key={note._id} className={`p-3 hover:bg-gray-50 ${note.isRead ? '' : 'bg-blue-50'}`}>
+          <li
+            key={note._id}
+            className={`p-3 hover:bg-gray-50 ${note.isRead ? "" : "bg-blue-50"}`}
+          >
             <Link to={note.link} onClick={() => handleMarkRead(note._id)}>
               {note.message}
             </Link>

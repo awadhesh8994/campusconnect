@@ -1,56 +1,55 @@
-import { useState } from 'react';
-import { Image, Smile, MapPin, Calendar, X, Plus } from 'lucide-react';
+import { useState } from "react";
+import { Image, Smile, MapPin, X, Plus } from "lucide-react";
 
 export default function CreatePost({ onPostCreated }) {
-  const [text, setText] = useState('');
-  const [image, setImage] = useState('');
+  const [text, setText] = useState("");
+  const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [showImageInput, setShowImageInput] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const token = 'demo_token';
 
   const handleSubmit = async () => {
     if (!text.trim() && !image.trim()) return;
 
     try {
       setLoading(true);
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       const newPost = {
         _id: Date.now().toString(),
         text,
         image: image.trim() || null,
         user: {
-          _id: 'current_user_id',
-          name: 'Current User'
+          _id: "current_user_id",
+          name: "Current User",
         },
         likes: [],
         comments: [],
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
-      setText('');
-      setImage('');
+      setText("");
+      setImage("");
       setShowImageInput(false);
       setIsFocused(false);
       onPostCreated(newPost);
     } catch (err) {
-      console.error('Failed to create post:', err);
+      console.error("Failed to create post:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       handleSubmit();
     }
   };
 
   const clearImage = () => {
-    setImage('');
+    setImage("");
     setShowImageInput(false);
   };
 
@@ -65,7 +64,9 @@ export default function CreatePost({ onPostCreated }) {
         {isExpanded && (
           <div className="mb-4 animate-fadeIn">
             <h2 className="text-xl font-semibold text-gray-900">Create Post</h2>
-            <p className="text-sm text-gray-500 mt-1">Share your thoughts with the world</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Share your thoughts with the world
+            </p>
           </div>
         )}
 
@@ -74,21 +75,27 @@ export default function CreatePost({ onPostCreated }) {
           <textarea
             rows={isExpanded ? 4 : 2}
             className={`w-full border-0 bg-gray-50 rounded-xl px-4 py-4 text-base placeholder-gray-500 focus:outline-none focus:ring-0 focus:bg-white resize-none transition-all duration-300 ${
-              isExpanded ? 'focus:shadow-lg' : 'focus:shadow-md'
+              isExpanded ? "focus:shadow-lg" : "focus:shadow-md"
             }`}
-            placeholder={isExpanded ? "What's happening?" : "What's on your mind?"}
+            placeholder={
+              isExpanded ? "What's happening?" : "What's on your mind?"
+            }
             value={text}
             onChange={(e) => setText(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onKeyPress={handleKeyPress}
           />
-          
+
           {/* Character Count */}
           {isExpanded && text.length > 0 && (
             <div className="absolute bottom-2 right-2">
-              <div className={`text-xs px-2 py-1 rounded-full ${
-                text.length > 280 ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600'
-              }`}>
+              <div
+                className={`text-xs px-2 py-1 rounded-full ${
+                  text.length > 280
+                    ? "bg-red-100 text-red-600"
+                    : "bg-gray-100 text-gray-600"
+                }`}
+              >
                 {text.length}/280
               </div>
             </div>
@@ -126,11 +133,11 @@ export default function CreatePost({ onPostCreated }) {
                 alt="Preview"
                 className="rounded-xl max-h-64 object-cover border border-gray-200 shadow-sm"
                 onError={(e) => {
-                  e.target.style.display = 'none';
+                  e.target.style.display = "none";
                 }}
               />
               <button
-                onClick={() => setImage('')}
+                onClick={() => setImage("")}
                 className="absolute top-2 right-2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full p-1 transition-all duration-200"
               >
                 <X className="w-4 h-4" />
@@ -149,20 +156,20 @@ export default function CreatePost({ onPostCreated }) {
               <button
                 onClick={() => setShowImageInput(!showImageInput)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  showImageInput 
-                    ? 'bg-blue-100 text-blue-600 shadow-sm' 
-                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                  showImageInput
+                    ? "bg-blue-100 text-blue-600 shadow-sm"
+                    : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
                 }`}
               >
                 <Image className="w-4 h-4" />
                 Photo
               </button>
-              
+
               <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-green-600 hover:bg-green-50 transition-all duration-200">
                 <Smile className="w-4 h-4" />
                 Feeling
               </button>
-              
+
               <button className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200">
                 <MapPin className="w-4 h-4" />
                 Location
@@ -174,8 +181,8 @@ export default function CreatePost({ onPostCreated }) {
               {hasContent && (
                 <button
                   onClick={() => {
-                    setText('');
-                    setImage('');
+                    setText("");
+                    setImage("");
                     setShowImageInput(false);
                     setIsFocused(false);
                   }}
@@ -184,14 +191,14 @@ export default function CreatePost({ onPostCreated }) {
                   Cancel
                 </button>
               )}
-              
+
               <button
                 onClick={handleSubmit}
                 disabled={loading || !hasContent}
                 className={`relative overflow-hidden px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                   hasContent && !loading
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:shadow-xl hover:scale-105 transform'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:shadow-xl hover:scale-105 transform"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
                 {loading ? (
@@ -205,7 +212,7 @@ export default function CreatePost({ onPostCreated }) {
                     Post
                   </div>
                 )}
-                
+
                 {/* Shine effect on hover */}
                 {hasContent && !loading && (
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 hover:opacity-20 transform translate-x-[-100%] hover:translate-x-[100%] transition-all duration-700"></div>
@@ -213,7 +220,7 @@ export default function CreatePost({ onPostCreated }) {
               </button>
             </div>
           </div>
-          
+
           {/* Quick Tips */}
           <div className="mt-3 text-xs text-gray-500">
             <span>💡 Pro tip: Press Ctrl+Enter to post quickly</span>

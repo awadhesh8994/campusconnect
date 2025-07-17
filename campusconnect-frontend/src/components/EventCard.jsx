@@ -1,6 +1,5 @@
 // frontend/components/EventCard.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function EventCard({ event, onRSVP }) {
   return (
@@ -26,11 +25,11 @@ export default function EventCard({ event, onRSVP }) {
           className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
           onClick={() => onRSVP(event._id)}
         >
-          {event.isAttending ? 'Unattend' : 'Attend'}
+          {event.isAttending ? "Unattend" : "Attend"}
         </button>
 
         <span className="text-sm text-gray-600">
-          {(event.attendees?.length || 0)} going
+          {event.attendees?.length || 0} going
         </span>
 
         <Link

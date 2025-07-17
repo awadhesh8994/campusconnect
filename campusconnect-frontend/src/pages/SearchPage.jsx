@@ -16,7 +16,7 @@ export default function SearchPage() {
         `${import.meta.env.VITE_API_URL}/users/search?query=${query}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       setResults(res.data);
